@@ -12,5 +12,10 @@ func main() {
 	app.Usage = "Keep your ideas"
 	app.Flags = []cli.Flag{}
 	app.Commands = commands
+	// Create default data directory.
+	if _, err := os.Stat(dataPath); os.IsNotExist(err) {
+		createDataPath()
+	}
+
 	app.Run(os.Args)
 }
