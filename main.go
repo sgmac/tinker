@@ -16,6 +16,6 @@ func main() {
 	if _, err := os.Stat(dataPath); os.IsNotExist(err) {
 		createDataPath()
 	}
-
+	defer db.Close()
 	app.Run(os.Args)
 }

@@ -10,6 +10,8 @@ import (
 
 var db *bolt.DB
 
+const markDone = "\u2713"
+
 func init() {
 	var err error
 	dbPath := filepath.Join(dataPath, "bolt.db")
@@ -33,8 +35,18 @@ func addNewTopic(topic string) {
 func listTopics() {
 	db.View(func(tx *bolt.Tx) error {
 		return tx.ForEach(func(name []byte, _ *bolt.Bucket) error {
-			fmt.Println(string(name))
+			fmt.Println(markDone, string(name))
 			return nil
 		})
+	})
+}
+
+func deleteTopic(topic string) {
+	db.Update(func(tx *bolt.Tx) error {
+		err := tx.DeleteBucket([]byte(topic))
+		if err != nil {
+		}
+		fmt.Println("Deleted topic ", topic)
+		return nil
 	})
 }

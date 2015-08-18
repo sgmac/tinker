@@ -45,9 +45,12 @@ var commands = []cli.Command{
 				},
 			},
 			{
-				Name:   "delete",
-				Usage:  "delete topic",
-				Action: func(c *cli.Context) {},
+				Name:  "delete",
+				Usage: "delete topic",
+				Action: func(c *cli.Context) {
+					topic := strings.Join(c.Args(), " ")
+					deleteTopic(topic)
+				},
 			},
 			{
 				Name:  "list",
