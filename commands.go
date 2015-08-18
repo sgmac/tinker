@@ -1,6 +1,10 @@
 package main
 
-import "github.com/codegangsta/cli"
+import (
+	"strings"
+
+	"github.com/codegangsta/cli"
+)
 
 var commands = []cli.Command{
 	{
@@ -33,9 +37,12 @@ var commands = []cli.Command{
 		Usage: "manage your topics",
 		Subcommands: []cli.Command{
 			{
-				Name:   "add",
-				Usage:  "add topic",
-				Action: func(c *cli.Context) {},
+				Name:  "add",
+				Usage: "add topic",
+				Action: func(c *cli.Context) {
+					topic := strings.Join(c.Args(), " ")
+					addNewTopic(topic)
+				},
 			},
 			{
 				Name:   "delete",
@@ -43,9 +50,11 @@ var commands = []cli.Command{
 				Action: func(c *cli.Context) {},
 			},
 			{
-				Name:   "list",
-				Usage:  "list topics",
-				Action: func(c *cli.Context) {},
+				Name:  "list",
+				Usage: "list topics",
+				Action: func(c *cli.Context) {
+					listTopics()
+				},
 			},
 			{
 				Name:   "set",
