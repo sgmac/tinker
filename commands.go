@@ -8,19 +8,42 @@ import (
 
 var commands = []cli.Command{
 	{
-		Name:   "add",
-		Usage:  "add idea topic ",
-		Action: func(c *cli.Context) {},
+		Name:  "add",
+		Usage: "add idea topic ",
+		Action: func(c *cli.Context) {
+			if len(c.Args()) < 2 {
+				cli.ShowSubcommandHelp(c)
+				return
+			}
+			topic := c.Args()[0]
+			idea := strings.Join(c.Args()[1:], " ")
+			addIdea(topic, idea)
+		},
 	},
 	{
-		Name:   "list",
-		Usage:  "list ideas",
-		Action: func(c *cli.Context) {},
+		Name:  "list",
+		Usage: "list ideas",
+		Action: func(c *cli.Context) {
+			if len(c.Args()) < 1 {
+				cli.ShowSubcommandHelp(c)
+				return
+			}
+			topic := c.Args()[0]
+			listIdeas(topic)
+		},
 	},
 	{
-		Name:   "delete",
-		Usage:  "delete idea",
-		Action: func(c *cli.Context) {},
+		Name:  "delete",
+		Usage: "delete idea",
+		Action: func(c *cli.Context) {
+			if len(c.Args()) < 2 {
+				cli.ShowSubcommandHelp(c)
+				return
+			}
+			topic := c.Args()[0]
+			id := c.Args()[1]
+			deleteIdea(topic, id)
+		},
 	},
 	{
 		Name:   "done",
