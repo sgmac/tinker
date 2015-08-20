@@ -63,6 +63,10 @@ var commands = []cli.Command{
 				Name:  "add",
 				Usage: "add topic",
 				Action: func(c *cli.Context) {
+					if len(c.Args()) < 1 {
+						cli.ShowSubcommandHelp(c)
+						return
+					}
 					topic := strings.Join(c.Args(), " ")
 					addNewTopic(topic)
 				},
@@ -83,9 +87,16 @@ var commands = []cli.Command{
 				},
 			},
 			{
-				Name:   "set",
-				Usage:  "set a default topic",
-				Action: func(c *cli.Context) {},
+				Name:  "set",
+				Usage: "set a default topic",
+				Action: func(c *cli.Context) {
+					topic := strings.Join(c.Args(), " ")
+					if len(c.Args()) < 1 {
+						cli.ShowSubcommandHelp(c)
+						return
+					}
+					setDefaultTopic(topic)
+				},
 			},
 		},
 	},
