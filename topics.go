@@ -28,13 +28,32 @@ func addNewTopic(topic string) {
 	})
 }
 
+func isValidTopic(topic string) bool {
+	topics := getTopics()
+	for _, name := range topics {
+		if topic == name {
+			return true
+		}
+	}
+	return false
+}
+
 func listTopics() {
+	topics := getTopics()
+	for _, name := range topics {
+		fmt.Println(markDone, string(name))
+	}
+}
+
+func getTopics() []string {
+	var topics []string
 	db.View(func(tx *bolt.Tx) error {
 		return tx.ForEach(func(name []byte, _ *bolt.Bucket) error {
-			fmt.Println(markDone, string(name))
+			topics = append(topics, string(name))
 			return nil
 		})
 	})
+	return topics
 }
 
 func deleteTopic(topic string) {
@@ -72,5 +91,31 @@ func setDefaultTopic(topic string) {
 	st.Default = topic
 	newData, err := yaml.Marshal(st)
 	ioutil.WriteFile(defaultTopicFile, newData, 0644)
+}
 
+func getDefaultTopic() string {
+	defaultTopicFile := filepath.Join(dataPath, "topic")
+	if _, err := os.Stat(defaultTopicFile); os.IsNotExist(err) {
+		data := new(Topic)
+		emptyConf, err := yaml.Marshal(data)
+		if err != nil {
+			logrus.Fatal(err)
+		}
+		ioutil.WriteFile(defaultTopicFile, emptyConf, 0644)
+	}
+	st := new(Topic)
+	data, err := ioutil.ReadFile(defaultTopicFile)
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	// Read the previous default topic
+	err = yaml.Unmarshal(data, &st)
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	return st.Default
+}
+
+func readDefaultTopic() {
+	fmt.Println(getDefaultTopic())
 }
