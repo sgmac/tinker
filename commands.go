@@ -75,9 +75,24 @@ var commands = []cli.Command{
 		Action: func(c *cli.Context) {},
 	},
 	{
-		Name:   "start",
-		Usage:  "start work idea",
-		Action: func(c *cli.Context) {},
+		Name:  "started",
+		Usage: "list started ideas",
+		Action: func(c *cli.Context) {
+			listIdeas("started")
+		},
+	},
+	{
+		Name:  "start",
+		Usage: "start work idea",
+		Action: func(c *cli.Context) {
+			if len(c.Args()) < 2 {
+				cli.ShowSubcommandHelp(c)
+				return
+			}
+			topic := c.Args()[0]
+			id := c.Args()[1]
+			startIdea(topic, id)
+		},
 	},
 	{
 		Name:  "topic",
