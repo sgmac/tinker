@@ -60,3 +60,19 @@ func deleteIdea(topic, id string) {
 		fmt.Println(topic+":", err)
 	}
 }
+
+func getIdea(topic, id string) string {
+	var idea string
+	err := db.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(topic))
+		if b != nil {
+			idea = string(b.Get([]byte(id)))
+			return nil
+		}
+		return ErrorNotExist
+	})
+	if err != nil {
+		fmt.Println(topic+":", err)
+	}
+	return idea
+}
