@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/Sirupsen/logrus"
 	"github.com/boltdb/bolt"
 )
 
@@ -75,4 +76,17 @@ func getIdea(topic, id string) string {
 		fmt.Println(topic+":", err)
 	}
 	return idea
+}
+
+func updateIdea(topic, idea, id string) {
+	err := db.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(topic))
+		if b != nil {
+			return b.Put([]byte(id), []byte(idea))
+		}
+		return ErrorNotExist
+	})
+	if err != nil {
+		logrus.Error(err)
+	}
 }
