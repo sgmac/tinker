@@ -1,11 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
 )
+
+const strike = "L\u0336"
 
 var (
 	homeDir  = os.Getenv("HOME")
@@ -23,4 +26,12 @@ func createDataPath() {
 			log.Fatal("createDataPath-", err)
 		}
 	}
+}
+
+func strikeText(text string) string {
+	var strikeLine string
+	for _, c := range text {
+		strikeLine += fmt.Sprintf("%c\u0336", c)
+	}
+	return strikeLine
 }

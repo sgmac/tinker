@@ -41,3 +41,12 @@ func startIdea(topic, id string) {
 		return ErrorNotExist
 	})
 }
+
+func doneIdea(topic, id string) {
+	// Get idea by id
+	idea := getIdea("started", id)
+	// Strike the idea
+	strikedIdea := strikeText(idea)
+	// Store back
+	updateIdea("started", strikedIdea, id)
+}

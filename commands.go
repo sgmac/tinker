@@ -9,7 +9,7 @@ import (
 var commands = []cli.Command{
 	{
 		Name:  "add",
-		Usage: "add idea topic ",
+		Usage: "add idea",
 		Action: func(c *cli.Context) {
 			var idea string
 			reqArgs := 2
@@ -70,9 +70,16 @@ var commands = []cli.Command{
 		},
 	},
 	{
-		Name:   "done",
-		Usage:  "done idea",
-		Action: func(c *cli.Context) {},
+		Name:  "done",
+		Usage: "done idea",
+		Action: func(c *cli.Context) {
+			if len(c.Args()) < 1 {
+				cli.ShowSubcommandHelp(c)
+				return
+			}
+			id := c.Args()[0]
+			doneIdea("started", id)
+		},
 	},
 	{
 		Name:  "started",
