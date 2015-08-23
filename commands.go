@@ -12,12 +12,18 @@ var commands = []cli.Command{
 		Usage: "add idea",
 		Action: func(c *cli.Context) {
 			var idea string
+
 			reqArgs := 2
 			topic := getDefaultTopic()
 			if topic != "" {
 				reqArgs = 1
 			}
 			if len(c.Args()) < reqArgs {
+				cli.CommandHelpTemplate = `NAME:
+   {{.Name}} - {{.Usage}}
+USAGE:
+   {{.Name}} [TOPIC] [IDEA]
+`
 				cli.ShowSubcommandHelp(c)
 				return
 			}
