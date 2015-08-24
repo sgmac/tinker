@@ -6,25 +6,27 @@ import (
 	"github.com/codegangsta/cli"
 )
 
+var CommandHelpTemplate = `NAME:
+   {{.Name}} - {{.Usage}}
+
+USAGE:
+   {{.Name}} [TOPIC] [IDEA]
+`
+
 var commands = []cli.Command{
 	{
 		Name:  "add",
 		Usage: "add idea",
 		Action: func(c *cli.Context) {
+			cli.CommandHelpTemplate = CommandHelpTemplate
 			var idea string
-
 			reqArgs := 2
 			topic := getDefaultTopic()
 			if topic != "" {
 				reqArgs = 1
 			}
 			if len(c.Args()) < reqArgs {
-				cli.CommandHelpTemplate = `NAME:
-   {{.Name}} - {{.Usage}}
-USAGE:
-   {{.Name}} [TOPIC] [IDEA]
-`
-				cli.ShowSubcommandHelp(c)
+				cli.ShowCommandHelp(c, "add")
 				return
 			}
 			// If there is no default topic, or if there is, but the first
@@ -47,6 +49,7 @@ USAGE:
 		Name:  "list",
 		Usage: "list ideas",
 		Action: func(c *cli.Context) {
+			cli.CommandHelpTemplate = CommandHelpTemplate
 			reqArgs := 1
 			topic := getDefaultTopic()
 			if topic != "" {
@@ -66,6 +69,7 @@ USAGE:
 		Name:  "delete",
 		Usage: "delete idea",
 		Action: func(c *cli.Context) {
+			cli.CommandHelpTemplate = CommandHelpTemplate
 			if len(c.Args()) < 2 {
 				cli.ShowSubcommandHelp(c)
 				return
@@ -79,6 +83,7 @@ USAGE:
 		Name:  "done",
 		Usage: "done idea",
 		Action: func(c *cli.Context) {
+			cli.CommandHelpTemplate = CommandHelpTemplate
 			if len(c.Args()) < 1 {
 				cli.ShowSubcommandHelp(c)
 				return
@@ -98,6 +103,7 @@ USAGE:
 		Name:  "start",
 		Usage: "start work idea",
 		Action: func(c *cli.Context) {
+			cli.CommandHelpTemplate = CommandHelpTemplate
 			if len(c.Args()) < 2 {
 				cli.ShowSubcommandHelp(c)
 				return
