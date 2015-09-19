@@ -44,9 +44,9 @@ func startIdea(topic, id string) {
 
 func doneIdea(topic, id string) {
 	// Get idea by id
-	idea := getIdea("started", id)
+	idea := getIdea(topic, id)
 	// Strike the idea
 	strikedIdea := strikeText(idea)
 	// Store back
-	updateIdea("started", strikedIdea, id)
+	updateIdea(topic, strikedIdea, id)
 }

@@ -83,13 +83,20 @@ var commands = []cli.Command{
 		Name:  "done",
 		Usage: "done idea",
 		Action: func(c *cli.Context) {
+			var topic, id string
 			cli.CommandHelpTemplate = CommandHelpTemplate
 			if len(c.Args()) < 1 {
 				cli.ShowSubcommandHelp(c)
 				return
 			}
-			id := c.Args()[0]
-			doneIdea("started", id)
+			if len(c.Args()) < 2 {
+				topic = "started"
+				id = c.Args()[0]
+			} else {
+				topic = c.Args()[0]
+				id = c.Args()[1]
+			}
+			doneIdea(topic, id)
 		},
 	},
 	{
