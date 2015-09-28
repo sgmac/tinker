@@ -79,6 +79,11 @@ func getIdea(topic, id string) string {
 }
 
 func updateIdea(topic, idea, id string) {
+	storedIdea := getIdea(topic, id)
+	// If the idea does not exist, return
+	if storedIdea == "" {
+		return
+	}
 	err := db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(topic))
 		if b != nil {
